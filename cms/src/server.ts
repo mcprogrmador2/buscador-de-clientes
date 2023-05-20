@@ -47,6 +47,7 @@ const useFetchJobById = (idJob) => {
   const [data, setData] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+
   const fetchData =  () => {
     setIsLoading(true);
     axios.get(`${backendURL}api/jobs/${idJob}`)
@@ -57,6 +58,6 @@ const useFetchJobById = (idJob) => {
   };
 
   useEffect(() => {
-   fetchData();  
+    fetchData();  
   }, []); */
 }
