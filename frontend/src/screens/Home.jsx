@@ -1,6 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 export const Home = () => {
+  {
+    /*componentDidMount() {
+    axios.get('262hDDxDQDuliJVhp24MT5cZKnSYgOwYjvTzzsDIIY0LYcSpztmOwAgjFCVV')
+  }*/
+  }
+  useEffect(() => {
+    const options = {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({ token: "262hDDxDQDuliJVhp24MT5cZKnSYgOwYjvTzzsDIIY0LYcSpztmOwAgjFCVV", ruc: "20603274742" }),
+    };
+  });
+
+{/*fetch('https://api.migo.pe/api/v1/ruc', options)
+  .then(response => response.json())
+  .then(response => console.log(response))
+  .catch(err => console.error(err));*/}
+
   const [tipoDocumento, setTipoDocumento] = useState("RUC");
   const [numeroDocumento, setNumeroDocumento] = useState("");
   const [resultados, setResultados] = useState([]);

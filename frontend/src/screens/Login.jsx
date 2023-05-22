@@ -3,9 +3,7 @@ import axios from "axios";
 
 
 export const Login = () => {
-  {/*componentDidMount() {
-    axios.get('262hDDxDQDuliJVhp24MT5cZKnSYgOwYjvTzzsDIIY0LYcSpztmOwAgjFCVV')
-  }*/}
+
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
