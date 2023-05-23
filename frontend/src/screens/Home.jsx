@@ -1,27 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 export const Home = () => {
-  {
-    /*componentDidMount() {
-    axios.get('262hDDxDQDuliJVhp24MT5cZKnSYgOwYjvTzzsDIIY0LYcSpztmOwAgjFCVV')
-  }*/
-  }
-  useEffect(() => {
-    const options = {
-      method: "POST",
-      headers: {
-        accept: "application/json",
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ token: "262hDDxDQDuliJVhp24MT5cZKnSYgOwYjvTzzsDIIY0LYcSpztmOwAgjFCVV", ruc: "20603274742" }),
-    };
-  });
-
-{/*fetch('https://api.migo.pe/api/v1/ruc', options)
-  .then(response => response.json())
-  .then(response => console.log(response))
-  .catch(err => console.error(err));*/}
-
   const [tipoDocumento, setTipoDocumento] = useState("RUC");
   const [numeroDocumento, setNumeroDocumento] = useState("");
   const [resultados, setResultados] = useState([]);
@@ -50,50 +29,36 @@ export const Home = () => {
     ) {
       return;
     }
-    if (tipoConsulta === "empresas") {
-      setResultados([
-        {
-          ruc: "12345678901",
-          nombre: "Empresa 1",
-          dueño: "Dueño 1",
-          ciudad: "Ciudad 1",
-        },
-        {
-          ruc: "23456789012",
-          nombre: "Empresa 2",
-          dueño: "Dueño 2",
-          ciudad: "Ciudad 2",
-        },
-        {
-          ruc: "34567890123",
-          nombre: "Empresa 3",
-          dueño: "Dueño 3",
-          ciudad: "Ciudad 3",
-        },
-      ]);
-    } else if (tipoConsulta === "personas") {
-      setResultados([
-        {
-          dni: "12345678",
-          nombres: "Persona 1",
-          apellidos: "Apellido 1",
-          ruc: "12345678901",
-        },
-        {
-          dni: "23456789",
-          nombres: "Persona 2",
-          apellidos: "Apellido 2",
-          ruc: "23456789012",
-        },
-        {
-          dni: "34567890",
-          nombres: "Persona 3",
-          apellidos: "Apellido 3",
-          ruc: "34567890123",
-        },
-      ]);
-    }
     setUltimaConsulta({ tipoConsulta, numeroDocumento });
+
+    const options = {
+      method: "POST",
+      headers: {
+        accept: "application/json",
+        "content-type": "application/json",
+      },
+    };
+
+    let url = "";
+
+    if (tipoDocumento === "RUC") {
+      url = "https://api.migo.pe/api/v1/ruc";
+      options.body = JSON.stringify({
+        token: "262hDDxDQDuliJVhp24MT5cZKnSYgOwYjvTzzsDIIY0LYcSpztmOwAgjFCVV",
+        ruc: numeroDocumento,
+      });
+    } else if (tipoDocumento === "DNI") {
+      url = "https://api.migo.pe/api/v1/dni";
+      options.body = JSON.stringify({
+        token: "262hDDxDQDuliJVhp24MT5cZKnSYgOwYjvTzzsDIIY0LYcSpztmOwAgjFCVV",
+        dni: numeroDocumento,
+      });
+    }
+
+    fetch(url, options)
+      .then((response) => response.json())
+      .then((response) => console.log(response))
+      .catch((err) => console.error(err));
   };
 
   return (
@@ -149,6 +114,7 @@ export const Home = () => {
         numeroDocumento === ultimaConsulta.numeroDocumento && (
           <div className="mt-8">
             <h2 className="text-lg font-bold mb-4">Resultados:</h2>
+
             <table className="border border-gray-300">
               <thead>
                 <tr>
@@ -159,7 +125,7 @@ export const Home = () => {
                         Nombre de Empresa
                       </th>
                       <th className="border border-gray-300 px-4 py-2">
-                        Dueño
+                        Ubigeo
                       </th>
                       <th className="border border-gray-300 px-4 py-2">
                         Ciudad
@@ -188,13 +154,13 @@ export const Home = () => {
                           {resultado.ruc}
                         </td>
                         <td className="border border-gray-300 px-4 py-2">
-                          {resultado.nombre}
+                          {resultado.nombre_o_razon_social}
                         </td>
                         <td className="border border-gray-300 px-4 py-2">
-                          {resultado.dueño}
+                          {resultado.ubigeo}
                         </td>
                         <td className="border border-gray-300 px-4 py-2">
-                          {resultado.ciudad}
+                          {resultado.provincia}
                         </td>
                       </>
                     ) : (
