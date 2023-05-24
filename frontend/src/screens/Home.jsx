@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { FaUser, FaBuilding } from "react-icons/fa";
 
 export const Home = () => {
   const [tipoDocumento, setTipoDocumento] = useState("RUC");
   const [numeroDocumento, setNumeroDocumento] = useState("");
+  const [numeroDocumentoTemp, setNumeroDocumentoTemp] = useState("");
   const [resultados, setResultados] = useState([]);
   const [tipoConsulta, setTipoConsulta] = useState("personas");
   const [consultaRealizada, setConsultaRealizada] = useState(false);
@@ -13,11 +15,11 @@ export const Home = () => {
   const [imagenVisible, setImagenVisible] = useState(true);
 
   const handleTipoConsultaChange = (e) => {
-    setTipoConsulta(e.target.value);
+    setTipoConsulta(e);
   };
 
   const handleTipoDocumentoChange = (e) => {
-    setTipoDocumento(e.target.value);
+    setTipoDocumento(e);
   };
 
   const handleNumeroDocumentoChange = (e) => {
@@ -42,100 +44,118 @@ export const Home = () => {
   const renderTabla = () => {
     if (
       tipoConsulta === ultimaConsulta.tipoConsulta &&
-      numeroDocumento === ultimaConsulta.numeroDocumento
+      numeroDocumentoTemp === ultimaConsulta.numeroDocumento
     ) {
       return (
-        <div className="flex flex-col align-middle my-auto items-center justify-center">
-          <h2 className="text-lg font-bold mb-4">Resultados:</h2>
-          <table className="border border-gray-600 bg-gray-300">
+        <div
+          className={`${
+            imagenVisible
+              ? "transform translate-y-full opacity-0 hidden transition-all duration-500"
+              : "transform translate-y-0 opacity-100 transition-all duration-500"
+          } flex flex-col align-middle my-auto items-center justify-center relative`}
+        >
+          <table className="border border-gray-600 bg-white">
             <tbody>
               {tipoConsulta === "empresas" ? (
                 <>
                   <tr>
-                    <td className="border border-gray-700 px-4 py-2 font-bold">
+                    <td className="border border-orange-600 px-4 py-2 font-bold">
                       RUC:
                     </td>
-                    <td className="border border-gray-700 px-4 py-2">
+                    <td className="border border-orange-600 px-4 py-2">
                       {resultados.ruc}
                     </td>
                   </tr>
                   <tr>
-                    <td className="border border-gray-700 px-4 py-2 font-bold">
+                    <td className="border border-orange-600 px-4 py-2 font-bold">
                       Nombre de Empresa:
                     </td>
-                    <td className="border border-gray-700 px-4 py-2">
+                    <td className="border border-orange-600 px-4 py-2">
                       {resultados.nombre_o_razon_social}
                     </td>
                   </tr>
                   <tr>
-                    <td className="border border-gray-700 px-4 py-2 font-bold">
+                    <td className="border border-orange-600 px-4 py-2 font-bold">
                       Ubigeo:
                     </td>
-                    <td className="border border-gray-700 px-4 py-2">
+                    <td className="border border-orange-600 px-4 py-2">
                       {resultados.ubigeo}
                     </td>
                   </tr>
                   <tr>
-                    <td className="border border-gray-700 px-4 py-2 font-bold">
+                    <td className="border border-orange-600 px-4 py-2 font-bold">
                       Departamento:
                     </td>
-                    <td className="border border-gray-700 px-4 py-2">
+                    <td className="border border-orange-600 px-4 py-2">
                       {resultados.departamento}
                     </td>
                   </tr>
                   <tr>
-                    <td className="border border-gray-700 px-4 py-2 font-bold">
+                    <td className="border border-orange-600 px-4 py-2 font-bold">
                       Provincia:
                     </td>
-                    <td className="border border-gray-700 px-4 py-2">
+                    <td className="border border-orange-600 px-4 py-2">
                       {resultados.provincia}
                     </td>
                   </tr>
                   <tr>
-                    <td className="border border-gray-700 px-4 py-2 font-bold">
+                    <td className="border border-orange-600 px-4 py-2 font-bold">
                       Distrito:
                     </td>
-                    <td className="border border-gray-700 px-4 py-2">
+                    <td className="border border-orange-600 px-4 py-2">
                       {resultados.distrito}
                     </td>
                   </tr>
                   <tr>
-                    <td className="border border-gray-700 px-4 py-2 font-bold">
+                    <td className="border border-orange-600 px-4 py-2 font-bold">
                       Dirección:
                     </td>
-                    <td className="border border-gray-700 px-4 py-2">
+                    <td className="border border-orange-600 px-4 py-2">
                       {resultados.direccion_simple}
                     </td>
                   </tr>
                 </>
               ) : (
                 <>
-                  <tr>
-                    <td className="border border-gray-700 px-4 py-2 font-bold">
-                      DNI
-                    </td>
-                    <td className="border border-gray-700 px-4 py-2">
-                      {resultados.dni}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="border border-gray-700 px-4 py-2 font-bold">
-                      Nombre:
-                    </td>
-                    <td className="border border-gray-700 px-4 py-2">
-                      {tipoDocumento === "RUC"
-                        ? resultados.nombre_o_razon_social
-                        : resultados.nombre}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="border border-gray-700 px-4 py-2 font-bold">
-                      RUC:
-                    </td>
-                    <td className="border border-gray-700 px-4 py-2">
-                      {resultados.ruc}
-                    </td>
-                  </tr>
+                  {tipoDocumento === "DNI" ? (
+                    <>
+                      <tr>
+                        <td className="border border-orange-600 px-4 py-2 font-bold">
+                          DNI
+                        </td>
+                        <td className="border border-orange-600 px-4 py-2">
+                          {resultados.dni}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="border border-orange-600 px-4 py-2 font-bold">
+                          Nombre:
+                        </td>
+                        <td className="border border-orange-600 px-4 py-2">
+                          {resultados.nombre}
+                        </td>
+                      </tr>
+                    </>
+                  ) : (
+                    <>
+                      <tr>
+                        <td className="border border-orange-600 px-4 py-2 font-bold">
+                          RUC
+                        </td>
+                        <td className="border border-orange-600 px-4 py-2">
+                          {resultados.ruc}
+                        </td>
+                      </tr>
+                      <tr>
+                        <td className="border border-orange-600 px-4 py-2 font-bold">
+                          Nombre:
+                        </td>
+                        <td className="border border-orange-600 px-4 py-2">
+                          {resultados.nombre_o_razon_social}
+                        </td>
+                      </tr>
+                    </>
+                  )}
                 </>
               )}
             </tbody>
@@ -185,7 +205,7 @@ export const Home = () => {
       });
     }
 
-    setImagenVisible(false); // Ocultar imagen al realizar la búsqueda
+    setImagenVisible(false);
 
     fetch(url, options)
       .then((response) => response.json())
@@ -197,70 +217,116 @@ export const Home = () => {
   };
 
   return (
-    <div className="p-4 flex h-screen w-screen bg-gradient-to-br from-orange-500 to-orange-800">
-      <div className="w-1/2 relative flex flex-col justify-center items-center">
-        <div className="my-4">
-          <h1 className="text-2xl md:text-4xl lg:text-5xl text-white font-bold">
+    <div className="p-4 flex flex-col md:flex-row min-h-screen md:h-screen w-screen bg-gradient-to-br from-[#FB5001] to-[#FB8D01]">
+      <div className="w-20 h-20 absolute m-4 p-3 justify-start rounded-full border-4 border-white overflow-hidden">
+        <img
+          src="assets/images/logo-white.png"
+          alt="logo"
+          className="max-w-full max-h-full mx-auto object-cover"
+        />
+      </div>
+
+      <div className="md:w-1/2 relative h-auto mt-24 md:mt-0 flex flex-col justify-center items-center">
+        <div className="my-8">
+          <h1 className="text-4xl lg:text-5xl xl:text-6xl 2xl:text-7xl text-white font-bold">
             Buscar Cliente
           </h1>
         </div>
-        <div className="mb-4">
-          <label className="mr-2 font-bold">Tipo de Consulta:</label>
-          <select
-            className="p-2 border border-gray-700 rounded"
-            value={tipoConsulta}
-            onChange={handleTipoConsultaChange}
+
+        <div className="my-2 flex w-full justify-center">
+          <button
+            className={`p-2 flex items-center justify-center border w-1/2 max-w-[150px] xl:max-w-[200px] ${
+              tipoConsulta === "personas" ? "bg-white" : "bg-black text-white"
+            }`}
+            onClick={() => {
+              if (tipoConsulta === "personas") return;
+              handleTipoConsultaChange("personas");
+              setNumeroDocumento("");
+              setImagenVisible(true);
+            }}
           >
-            <option value="personas">Personas</option>
-            <option value="empresas">Empresas</option>
-          </select>
+            Personas
+            <FaUser className="ml-2" />
+          </button>
+          <button
+            className={`p-2 flex items-center justify-center border w-1/2 max-w-[150px] xl:max-w-[200px] ${
+              tipoConsulta === "empresas" ? "bg-white" : "bg-black text-white"
+            }`}
+            onClick={() => {
+              if (tipoConsulta === "empresas") return;
+              handleTipoConsultaChange("empresas");
+              handleTipoDocumentoChange("RUC");
+              setNumeroDocumento("");
+              setImagenVisible(true);
+            }}
+          >
+            Empresas
+            <FaBuilding className="ml-2" />
+          </button>
         </div>
         {tipoConsulta === "personas" && (
-          <div className="mb-4">
-            <label htmlFor="tipoDocumento" className="mr-2 font-bold">
-              Tipo de Documento:
-            </label>
-            <select
-              id="tipoDocumento"
-              className="p-2 border border-gray-700 rounded"
-              value={tipoDocumento}
-              onChange={handleTipoDocumentoChange}
+          <div className="my-2 flex w-full justify-center">
+            <button
+              className={`p-2 border w-1/2 max-w-[150px] xl:max-w-[200px] ${
+                tipoDocumento === "RUC" ? "bg-white" : "bg-black text-white"
+              }`}
+              onClick={() => {
+                if (tipoDocumento === "RUC") return;
+                handleTipoDocumentoChange("RUC");
+                setNumeroDocumento("");
+                setImagenVisible(true);
+              }}
             >
-              <option value="RUC">RUC</option>
-              <option value="DNI">DNI</option>
-            </select>
+              RUC
+            </button>
+            <button
+              className={`p-2 border w-1/2 max-w-[150px] xl:max-w-[200px] ${
+                tipoDocumento === "DNI" ? "bg-white" : "bg-black text-white"
+              }`}
+              onClick={() => {
+                if (tipoDocumento === "DNI") return;
+                handleTipoDocumentoChange("DNI");
+                setNumeroDocumento("");
+                setImagenVisible(true);
+              }}
+            >
+              DNI
+            </button>
           </div>
         )}
-        <div className="mb-4">
-          <label htmlFor="numeroDocumento" className="mr-2 font-bold">
-            {tipoDocumento === "RUC" ? "RUC:" : "DNI:"}
-          </label>
+        <div className="my-8 flex w-full justify-center">
           <input
-            className="p-2 border border-gray-700 rounded"
+            className="p-2 border border-orange-600 w-full max-w-[300px] xl:max-w-[400px]"
             value={numeroDocumento}
             onChange={handleNumeroDocumentoChange}
+            placeholder={tipoDocumento === "RUC" ? "RUC" : "DNI"}
           />
         </div>
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          onClick={handleBuscarClick}
+          className="bg-white hover:bg-orange-700 text-orange-700 hover:text-white font-bold py-2 px-12 rounded-3xl"
+          onClick={() => {
+            if (numeroDocumento.trim() !== "") {
+              handleBuscarClick();
+              setNumeroDocumentoTemp(numeroDocumento);
+            }
+          }}
         >
           Buscar
         </button>
       </div>
-      <div className="w-1/2 flex flex-col justify-center items-center">
-        <div className="relative">
+      <div className="md:w-1/2 h-auto my-auto relative flex flex-col justify-center items-center">
+        <div className="absolute">
           <img
             src="assets/images/logo-grande.png"
             alt="Imagen"
-            className={
+            className={`${
               imagenVisible
                 ? "transform translate-y-0 opacity-100 transition-all duration-500"
                 : "transform -translate-y-full opacity-0 transition-all duration-500"
-            }
+            } w-full max-w-[200px] md:max-w-[400px] xl:max-w-[500px]`}
           />
-          {consultaRealizada && renderTabla()}
         </div>
+        <div className="absolute top-0 md:top-auto">{consultaRealizada && renderTabla()}</div>
       </div>
     </div>
   );
