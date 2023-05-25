@@ -326,7 +326,9 @@ export const Home = () => {
             } w-full max-w-[200px] md:max-w-[400px] xl:max-w-[500px]`}
           />
         </div>
-        <div className="absolute top-0 md:top-auto">{consultaRealizada && renderTabla()}</div>
+        <div className="absolute top-0 md:top-auto">
+          {consultaRealizada && renderTabla()}
+        </div>
       </div>
     </div>
   );
