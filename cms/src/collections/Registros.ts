@@ -16,14 +16,6 @@ const Registros: CollectionConfig = {
       type: 'relationship',
       relationTo: 'trabajadores',
     },
-    {
-      name: 'tipoDocumento',
-      type: 'text',
-    },
-    {
-      name: 'numeroDocumento',
-      type: 'text',
-    }
   ],
 }
 

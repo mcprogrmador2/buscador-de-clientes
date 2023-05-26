@@ -1,24 +1,18 @@
 import React, { useState } from "react";
-import axios from "axios";
 
 export const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
-  const handleSubmit = async (e) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSubmit = (e) => {
     e.preventDefault();
-
-    const trabajador = await axios(
-      {
-        email: email,
-        contrasena: password,
-      },
-      { withCredentials: "include" }
-    );
+    console.log("Email:", email);
+    console.log("Password:", password);
   };
 
   return (
-    <div className="flex justify-center items-center w-screen h-screen bg-gradient-to-br from-[#FB5001] to-[#FB8D01]">
+    <div className="flex justify-center items-center w-screen h-screen">
       <form
         className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
         onSubmit={handleSubmit}
@@ -62,7 +56,7 @@ export const Login = () => {
         </div>
         <div className="flex items-center justify-between">
           <button
-            className="bg-white hover:bg-orange-700 text-orange-700 hover:text-white border border-orange-700 font-bold py-2 px-12 rounded-3xl focus:outline-none focus:shadow-outline"
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
             type="submit"
           >
             Iniciar sesión
