@@ -1,6 +1,5 @@
 import { CollectionConfig } from 'payload/types';
 
-// Example Collection - For reference only, this must be added to payload.config.ts to be used.
 const Registros: CollectionConfig = {
   slug: 'registros',
   admin: {
@@ -16,6 +15,14 @@ const Registros: CollectionConfig = {
       type: 'relationship',
       relationTo: 'trabajadores',
     },
+    {
+      name: 'tipoDocumento',
+      type: 'text',
+    },
+    {
+      name: 'numeroDocumento',
+      type: 'text',
+    }
   ],
 }
 

@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { FaUser, FaBuilding } from "react-icons/fa";
+import axios from "axios";
+import { useSelector } from "react-redux";
 
 export const Home = () => {
   const [tipoDocumento, setTipoDocumento] = useState("RUC");
@@ -13,6 +15,9 @@ export const Home = () => {
     numeroDocumento: "",
   });
   const [imagenVisible, setImagenVisible] = useState(true);
+
+  const user = useSelector(state => state.user);
+  console.log(user);
 
   const handleTipoConsultaChange = (e) => {
     setTipoConsulta(e);
@@ -212,6 +217,12 @@ export const Home = () => {
       .then((response) => {
         setResultados(response);
         setConsultaRealizada(true);
+        axios.post(`http://localhost:4000/api/registros`, {
+          tiempo: Date.now,
+          autor: user._id,
+          tipoDocumento: { tipoDocumento },
+          numeroDocumento: { numeroDocumento },
+        });
       })
       .catch((err) => console.error(err));
   };
@@ -326,7 +337,9 @@ export const Home = () => {
             } w-full max-w-[200px] md:max-w-[400px] xl:max-w-[500px]`}
           />
         </div>
-        <div className="absolute top-0 md:top-auto">{consultaRealizada && renderTabla()}</div>
+        <div className="absolute top-0 md:top-auto">
+          {consultaRealizada && renderTabla()}
+        </div>
       </div>
     </div>
   );
