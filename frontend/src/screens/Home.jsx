@@ -218,13 +218,13 @@ export const Home = () => {
     if (tipoDocumento === "RUC") {
       url = "https://api.migo.pe/api/v1/ruc";
       options.body = JSON.stringify({
-        token: "262hDDxDQDuliJVhp24MT5cZKnSYgOwYjvTzzsDIIY0LYcSpztmOwAgjFCVV",
+        token: "tGm6t6AIKu8vUkZN9pjS8urjD1YNRiXwvmEgnGpGPUe25qpZVz1SdHyduJei",
         ruc: numeroDocumento,
       });
     } else if (tipoDocumento === "DNI") {
       url = "https://api.migo.pe/api/v1/dni";
       options.body = JSON.stringify({
-        token: "262hDDxDQDuliJVhp24MT5cZKnSYgOwYjvTzzsDIIY0LYcSpztmOwAgjFCVV",
+        token: "tGm6t6AIKu8vUkZN9pjS8urjD1YNRiXwvmEgnGpGPUe25qpZVz1SdHyduJei",
         dni: numeroDocumento,
       });
     }
@@ -235,13 +235,13 @@ export const Home = () => {
       .then((response) => response.json())
       .then((response) => {
         setResultados(response);
-        setConsultaRealizada(true);
+        setConsultaRealizada(true);{/*
         axios.post(`http://localhost:4000/api/registros`, {
           tiempo: Date.now,
           autor: user.id,
           tipoDocumento: { tipoDocumento },
           numeroDocumento: { numeroDocumento },
-        });
+        });*/}
       })
       .catch((err) => console.error(err));
   };

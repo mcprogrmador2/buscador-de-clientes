@@ -11,7 +11,7 @@ export const Login = () => {
 
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.user);
+  const user = useSelector((state) => state.reducer.user);
   const logged = useSelector((state) => state.isLoggedIn);
 
   const handleSubmit = async (e) => {
@@ -35,10 +35,7 @@ export const Login = () => {
     return <Navigate to={"/home"} />;
   }
 
-  {
-    /** */
-  }
-  if (logged === true) {
+  if (user !== null) {
     return <Navigate to={"/home"} />;
   }
 
