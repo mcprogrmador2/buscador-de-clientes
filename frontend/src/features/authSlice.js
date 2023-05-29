@@ -27,24 +27,10 @@ const authSlice = createSlice({
       state.error = null;
       state.loading = false;
       state.isLoggedIn = false;
-    },
+    }
   },
 });
 
-export const { loginStart, loginSuccess, loginFailure, logout } =
-  authSlice.actions;
-
-{
-  /*export const login = (email, password) => async (dispatch) => {
-  try {
-    dispatch(loginStart());
-    // Aquí puedes realizar la petición a tu backend
-    const response = await api.post("/login", { email, password });
-    dispatch(loginSuccess(response.data));
-  } catch (error) {
-    dispatch(loginFailure(error.message));
-  }
-};*/
-}
+export const { loginStart, loginSuccess, loginFailure, logout } = authSlice.actions;
 
 export default authSlice;

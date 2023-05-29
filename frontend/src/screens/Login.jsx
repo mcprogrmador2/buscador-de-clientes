@@ -35,7 +35,9 @@ export const Login = () => {
     return <Navigate to={"/home"} />;
   }
 
-  {/** */}
+  {
+    /** */
+  }
   if (logged === true) {
     return <Navigate to={"/home"} />;
   }
