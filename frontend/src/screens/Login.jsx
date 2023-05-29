@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { loginSuccess } from "../features/authSlice";
 import { Navigate } from "react-router-dom";
 
@@ -10,6 +10,9 @@ export const Login = () => {
   const [redirect, setRedirect] = useState(false);
 
   const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user);
+  const logged = useSelector((state) => state.isLoggedIn);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -29,6 +32,11 @@ export const Login = () => {
   };
 
   if (redirect) {
+    return <Navigate to={"/home"} />;
+  }
+
+  {/** */}
+  if (logged === true) {
     return <Navigate to={"/home"} />;
   }
 

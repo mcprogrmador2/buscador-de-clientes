@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { FaUser, FaBuilding } from "react-icons/fa";
 import axios from "axios";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../features/authSlice";
+import { Navigate } from "react-router-dom";
+import { MdLogout } from "react-icons/md";
 
 export const Home = () => {
   const [tipoDocumento, setTipoDocumento] = useState("RUC");
@@ -15,9 +18,25 @@ export const Home = () => {
     numeroDocumento: "",
   });
   const [imagenVisible, setImagenVisible] = useState(true);
+  const [redirect, setRedirect] = useState(false);
 
-  const user = useSelector(state => state.user);
+  const user = useSelector((state) => state.reducer.user);
   console.log(user);
+
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    dispatch(logout());
+    setRedirect(true);
+  };
+
+  if (redirect) {
+    return <Navigate to={"/"} />;
+  }
+
+  if (user == null) {
+    return <Navigate to={"/"} />;
+  }
 
   const handleTipoConsultaChange = (e) => {
     setTipoConsulta(e);
@@ -219,7 +238,7 @@ export const Home = () => {
         setConsultaRealizada(true);
         axios.post(`http://localhost:4000/api/registros`, {
           tiempo: Date.now,
-          autor: user._id,
+          autor: user.id,
           tipoDocumento: { tipoDocumento },
           numeroDocumento: { numeroDocumento },
         });
@@ -236,6 +255,13 @@ export const Home = () => {
           className="max-w-full max-h-full mx-auto object-cover"
         />
       </div>
+      <button
+        className="absolute flex items-center top-0 right-0 m-4 p-2 bg-white hover:bg-orange-700 text-orange-700 hover:text-white font-bold py-2 px-6 rounded-3xl"
+        onClick={handleLogout}
+      >
+        Logout
+        <MdLogout className="ml-2" />
+      </button>
 
       <div className="md:w-1/2 relative h-auto mt-24 md:mt-0 flex flex-col justify-center items-center">
         <div className="my-8">
