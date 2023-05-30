@@ -5,6 +5,7 @@ const Registros: CollectionConfig = {
   admin: {
     useAsTitle: 'someField',
   },
+  access: {create: () => true, read: () => true, update: () => true, delete: () => true},
   fields: [
     {
       name: 'tiempo',

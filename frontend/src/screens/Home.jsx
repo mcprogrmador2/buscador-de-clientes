@@ -3,6 +3,7 @@ import { FaUser, FaBuilding } from "react-icons/fa";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../features/authSlice";
+import { addRegisterSuccess } from "../features/registerSlice";
 import { Navigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 
@@ -20,7 +21,7 @@ export const Home = () => {
   const [imagenVisible, setImagenVisible] = useState(true);
   const [redirect, setRedirect] = useState(false);
 
-  const user = useSelector((state) => state.reducer.user);
+  const user = useSelector((state) => state.auth.user);
   console.log(user);
 
   const dispatch = useDispatch();
@@ -34,7 +35,7 @@ export const Home = () => {
     return <Navigate to={"/"} />;
   }
 
-  if (user !== null) {
+  if (user == null) {
     return <Navigate to={"/"} />;
   }
 
@@ -235,15 +236,24 @@ export const Home = () => {
       .then((response) => response.json())
       .then((response) => {
         setResultados(response);
-        setConsultaRealizada(true);{/*
-        axios.post(`http://localhost:4000/api/registros`, {
-          tiempo: Date.now,
-          autor: user.id,
-          tipoDocumento: { tipoDocumento },
-          numeroDocumento: { numeroDocumento },
-        });*/}
+        setConsultaRealizada(true);
       })
       .catch((err) => console.error(err));
+  };
+
+  const handleRegistro = async () => {
+    const currentTime = new Date().toISOString();
+
+    await axios
+      .post(`http://localhost:4000/api/registros`, {
+        tiempo: currentTime,
+        autor: user.id,
+        tipoDocumento: tipoDocumento,
+        numeroDocumento: numeroDocumento.toString(),
+      },
+      { withCredentials: "include" })
+      .then(({ data }) => dispatch(addRegisterSuccess(data.register)))
+      .catch((err) => console.log(err));
   };
 
   return (
@@ -345,6 +355,7 @@ export const Home = () => {
             if (numeroDocumento.trim() !== "") {
               handleBuscarClick();
               setNumeroDocumentoTemp(numeroDocumento);
+              handleRegistro();
             }
           }}
         >

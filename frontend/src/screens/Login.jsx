@@ -11,8 +11,8 @@ export const Login = () => {
 
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.reducer.user);
-  const logged = useSelector((state) => state.isLoggedIn);
+  const user = useSelector((state) => state.auth.user);
+  console.log(user);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
