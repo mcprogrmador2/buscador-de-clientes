@@ -35,7 +35,7 @@ export const Home = () => {
     return <Navigate to={"/"} />;
   }
 
-  if (user == null) {
+  if (user !== null) {
     return <Navigate to={"/"} />;
   }
 
