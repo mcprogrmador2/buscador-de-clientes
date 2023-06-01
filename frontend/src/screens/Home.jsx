@@ -35,7 +35,7 @@ export const Home = () => {
     return <Navigate to={"/"} />;
   }
 
-  if (user !== null) {
+  if (user == null) {
     return <Navigate to={"/"} />;
   }
 
@@ -245,7 +245,7 @@ export const Home = () => {
     const currentTime = new Date().toISOString();
 
     await axios
-      .post(`http://localhost:4000/api/registros`, {
+      .post(`https://backend-buscador-clientes.herokuapp.com/api/registros`, {
         tiempo: currentTime,
         autor: user.id,
         tipoDocumento: tipoDocumento,
