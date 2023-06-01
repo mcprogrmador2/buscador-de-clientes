@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 import { FaUser, FaBuilding } from "react-icons/fa";
+import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { logout } from "../features/authSlice";
+import { addRegisterSuccess } from "../features/registerSlice";
+import { Navigate } from "react-router-dom";
+import { MdLogout } from "react-icons/md";
 
 export const Home = () => {
   const [tipoDocumento, setTipoDocumento] = useState("RUC");
@@ -13,6 +19,25 @@ export const Home = () => {
     numeroDocumento: "",
   });
   const [imagenVisible, setImagenVisible] = useState(true);
+  const [redirect, setRedirect] = useState(false);
+
+  const user = useSelector((state) => state.auth.user);
+  console.log(user);
+
+  const dispatch = useDispatch();
+
+  const handleLogout = async () => {
+    dispatch(logout());
+    setRedirect(true);
+  };
+
+  if (redirect) {
+    return <Navigate to={"/"} />;
+  }
+
+  if (user !== null) {
+    return <Navigate to={"/"} />;
+  }
 
   const handleTipoConsultaChange = (e) => {
     setTipoConsulta(e);
@@ -194,13 +219,13 @@ export const Home = () => {
     if (tipoDocumento === "RUC") {
       url = "https://api.migo.pe/api/v1/ruc";
       options.body = JSON.stringify({
-        token: "262hDDxDQDuliJVhp24MT5cZKnSYgOwYjvTzzsDIIY0LYcSpztmOwAgjFCVV",
+        token: "tGm6t6AIKu8vUkZN9pjS8urjD1YNRiXwvmEgnGpGPUe25qpZVz1SdHyduJei",
         ruc: numeroDocumento,
       });
     } else if (tipoDocumento === "DNI") {
       url = "https://api.migo.pe/api/v1/dni";
       options.body = JSON.stringify({
-        token: "262hDDxDQDuliJVhp24MT5cZKnSYgOwYjvTzzsDIIY0LYcSpztmOwAgjFCVV",
+        token: "tGm6t6AIKu8vUkZN9pjS8urjD1YNRiXwvmEgnGpGPUe25qpZVz1SdHyduJei",
         dni: numeroDocumento,
       });
     }
@@ -216,6 +241,21 @@ export const Home = () => {
       .catch((err) => console.error(err));
   };
 
+  const handleRegistro = async () => {
+    const currentTime = new Date().toISOString();
+
+    await axios
+      .post(`http://localhost:4000/api/registros`, {
+        tiempo: currentTime,
+        autor: user.id,
+        tipoDocumento: tipoDocumento,
+        numeroDocumento: numeroDocumento.toString(),
+      },
+      { withCredentials: "include" })
+      .then(({ data }) => dispatch(addRegisterSuccess(data.register)))
+      .catch((err) => console.log(err));
+  };
+
   return (
     <div className="p-4 flex flex-col md:flex-row min-h-screen md:h-screen w-screen bg-gradient-to-br from-[#FB5001] to-[#FB8D01]">
       <div className="w-20 h-20 absolute m-4 p-3 justify-start rounded-full border-4 border-white overflow-hidden">
@@ -225,6 +265,13 @@ export const Home = () => {
           className="max-w-full max-h-full mx-auto object-cover"
         />
       </div>
+      <button
+        className="absolute flex items-center top-0 right-0 m-4 p-2 bg-white hover:bg-orange-700 text-orange-700 hover:text-white font-bold py-2 px-6 rounded-3xl"
+        onClick={handleLogout}
+      >
+        Logout
+        <MdLogout className="ml-2" />
+      </button>
 
       <div className="md:w-1/2 relative h-auto mt-24 md:mt-0 flex flex-col justify-center items-center">
         <div className="my-8">
@@ -308,6 +355,7 @@ export const Home = () => {
             if (numeroDocumento.trim() !== "") {
               handleBuscarClick();
               setNumeroDocumentoTemp(numeroDocumento);
+              handleRegistro();
             }
           }}
         >

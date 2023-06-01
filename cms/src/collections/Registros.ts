@@ -1,11 +1,11 @@
 import { CollectionConfig } from 'payload/types';
 
-// Example Collection - For reference only, this must be added to payload.config.ts to be used.
 const Registros: CollectionConfig = {
   slug: 'registros',
   admin: {
     useAsTitle: 'someField',
   },
+  access: {create: () => true, read: () => true, update: () => true, delete: () => true},
   fields: [
     {
       name: 'tiempo',

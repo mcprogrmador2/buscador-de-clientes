@@ -1,21 +1,43 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { loginSuccess } from "../features/authSlice";
+import { Navigate } from "react-router-dom";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [redirect, setRedirect] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.auth.user);
+  console.log(user);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const trabajador = await axios(
-      {
-        email: email,
-        contrasena: password,
-      },
-      { withCredentials: "include" }
-    );
+    await axios
+      .post(
+        "http://localhost:4000/api/trabajadores/login",
+        {
+          email: email,
+          password: password,
+        },
+        { withCredentials: "include" }
+      )
+      .then(({ data }) => dispatch(loginSuccess(data.user)))
+      .then(() => setRedirect(true))
+      .catch((e) => console.log(e));
   };
+
+  if (redirect) {
+    return <Navigate to={"/home"} />;
+  }
+
+  if (user !== null) {
+    return <Navigate to={"/home"} />;
+  }
 
   return (
     <div className="flex justify-center items-center w-screen h-screen bg-gradient-to-br from-[#FB5001] to-[#FB8D01]">

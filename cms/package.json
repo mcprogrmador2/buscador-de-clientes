@@ -15,6 +15,7 @@
     "generate:graphQLSchema": "cross-env PAYLOAD_CONFIG_PATH=src/payload.config.ts payload generate:graphQLSchema"
   },
   "dependencies": {
+    "@types/cors": "^2.8.13",
     "@types/node": "^20.2.1",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
