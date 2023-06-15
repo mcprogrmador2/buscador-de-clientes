@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaUser, FaBuilding } from "react-icons/fa";
+import { FaUser, FaBuilding, FaCheck } from "react-icons/fa";
 import axios from "axios";
 import { useSelector, useDispatch } from "react-redux";
 import { logout } from "../features/authSlice";
@@ -90,7 +90,7 @@ export const Home = () => {
                   </tr>
                   <tr>
                     <td className="border border-orange-600 px-4 py-2 font-bold">
-                      Nombre de Empresa:
+                      Nombre o Razón Social:
                     </td>
                     <td className="border border-orange-600 px-4 py-2">
                       {resultados.nombre_o_razon_social}
@@ -283,7 +283,9 @@ export const Home = () => {
         <div className="my-2 flex w-full rounded-lg justify-center">
           <button
             className={`p-2 flex items-center justify-center rounded-l-full border border-black w-1/2 max-w-[150px] xl:max-w-[200px] ${
-              tipoConsulta === "personas" ? "bg-white" : "bg-black opacity-50 text-white"
+              tipoConsulta === "personas"
+                ? "bg-white"
+                : "bg-black opacity-50 text-white"
             }`}
             onClick={() => {
               if (tipoConsulta === "personas") return;
@@ -293,12 +295,17 @@ export const Home = () => {
               setImagenVisible(true);
             }}
           >
+            {tipoConsulta === "personas" && (
+              <FaCheck className="mr-2 text-green-500" />
+            )}
             Personas
             <FaUser className="ml-2" />
           </button>
           <button
             className={`p-2 flex items-center justify-center rounded-r-full border border-black w-1/2 max-w-[150px] xl:max-w-[200px] ${
-              tipoConsulta === "empresas" ? "bg-white" : "bg-black opacity-50 text-white"
+              tipoConsulta === "empresas"
+                ? "bg-white"
+                : "bg-black opacity-50 text-white"
             }`}
             onClick={() => {
               if (tipoConsulta === "empresas") return;
@@ -308,6 +315,9 @@ export const Home = () => {
               setImagenVisible(true);
             }}
           >
+            {tipoConsulta === "empresas" && (
+              <FaCheck className="mr-2 text-green-500" />
+            )}
             Empresas
             <FaBuilding className="ml-2" />
           </button>
