@@ -6,7 +6,7 @@ require("dotenv").config();
 const app = express();
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL],
+    origin: ["http://localhost:3000"],
     credentials: true,
     //optionSuccessStatus: 200,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
@@ -31,7 +31,7 @@ const start = async () => {
 
   // Add your own express routes here
 
-  app.listen(4000);
+  app.listen(process.env.PORT);
 };
 
 start();

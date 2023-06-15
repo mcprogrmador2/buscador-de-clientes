@@ -5,7 +5,7 @@ import Registros from './collections/Registros';
 import Trabajadores from './collections/Trabajadores';
 
 export default buildConfig({
-  serverURL: 'http://localhost:4000',
+  serverURL: process.env.SERVER_URL,
   admin: {
     user: Users.slug,
   },

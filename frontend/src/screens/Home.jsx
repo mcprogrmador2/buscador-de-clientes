@@ -8,7 +8,7 @@ import { Navigate } from "react-router-dom";
 import { MdLogout } from "react-icons/md";
 
 export const Home = () => {
-  const [tipoDocumento, setTipoDocumento] = useState("RUC");
+  const [tipoDocumento, setTipoDocumento] = useState("DNI");
   const [numeroDocumento, setNumeroDocumento] = useState("");
   const [numeroDocumentoTemp, setNumeroDocumentoTemp] = useState("");
   const [resultados, setResultados] = useState([]);
@@ -51,13 +51,10 @@ export const Home = () => {
     const inputValue = e.target.value;
 
     if (
-      (tipoConsulta === "personas" &&
-        tipoDocumento === "RUC" &&
-        inputValue.length > 0 &&
-        (!inputValue.startsWith("1") || inputValue.length > 11)) ||
-      (tipoConsulta === "empresas" &&
-        inputValue.length > 0 &&
-        (!inputValue.startsWith("2") || inputValue.length > 11))
+      tipoConsulta === "empresas" &&
+      inputValue.length > 0 &&
+      ((!inputValue.startsWith("1") && !inputValue.startsWith("2")) ||
+        inputValue.length > 11)
     ) {
       setNumeroDocumento("");
       return;
@@ -219,13 +216,13 @@ export const Home = () => {
     if (tipoDocumento === "RUC") {
       url = "https://api.migo.pe/api/v1/ruc";
       options.body = JSON.stringify({
-        token: "tGm6t6AIKu8vUkZN9pjS8urjD1YNRiXwvmEgnGpGPUe25qpZVz1SdHyduJei",
+        token: "0FBSHND2b1Pk5QKeJv0vOvsj9tFMCyfO7lAc56W4wNbcPI8u0nhTFYnhzYJA",
         ruc: numeroDocumento,
       });
     } else if (tipoDocumento === "DNI") {
       url = "https://api.migo.pe/api/v1/dni";
       options.body = JSON.stringify({
-        token: "tGm6t6AIKu8vUkZN9pjS8urjD1YNRiXwvmEgnGpGPUe25qpZVz1SdHyduJei",
+        token: "0FBSHND2b1Pk5QKeJv0vOvsj9tFMCyfO7lAc56W4wNbcPI8u0nhTFYnhzYJA",
         dni: numeroDocumento,
       });
     }
@@ -245,13 +242,16 @@ export const Home = () => {
     const currentTime = new Date().toISOString();
 
     await axios
-      .post(`https://backend-buscador-clientes.herokuapp.com/api/registros`, {
-        tiempo: currentTime,
-        autor: user.id,
-        tipoDocumento: tipoDocumento,
-        numeroDocumento: numeroDocumento.toString(),
-      },
-      { withCredentials: "include" })
+      .post(
+        `https://backend-buscador-clientes.herokuapp.com/api/registros`,
+        {
+          tiempo: currentTime,
+          autor: user.id,
+          tipoDocumento: tipoDocumento,
+          numeroDocumento: numeroDocumento.toString(),
+        },
+        { withCredentials: "include" }
+      )
       .then(({ data }) => dispatch(addRegisterSuccess(data.register)))
       .catch((err) => console.log(err));
   };
@@ -280,14 +280,15 @@ export const Home = () => {
           </h1>
         </div>
 
-        <div className="my-2 flex w-full justify-center">
+        <div className="my-2 flex w-full rounded-lg justify-center">
           <button
-            className={`p-2 flex items-center justify-center border w-1/2 max-w-[150px] xl:max-w-[200px] ${
-              tipoConsulta === "personas" ? "bg-white" : "bg-black text-white"
+            className={`p-2 flex items-center justify-center rounded-l-full border border-black w-1/2 max-w-[150px] xl:max-w-[200px] ${
+              tipoConsulta === "personas" ? "bg-white" : "bg-black opacity-50 text-white"
             }`}
             onClick={() => {
               if (tipoConsulta === "personas") return;
               handleTipoConsultaChange("personas");
+              handleTipoDocumentoChange("DNI");
               setNumeroDocumento("");
               setImagenVisible(true);
             }}
@@ -296,8 +297,8 @@ export const Home = () => {
             <FaUser className="ml-2" />
           </button>
           <button
-            className={`p-2 flex items-center justify-center border w-1/2 max-w-[150px] xl:max-w-[200px] ${
-              tipoConsulta === "empresas" ? "bg-white" : "bg-black text-white"
+            className={`p-2 flex items-center justify-center rounded-r-full border border-black w-1/2 max-w-[150px] xl:max-w-[200px] ${
+              tipoConsulta === "empresas" ? "bg-white" : "bg-black opacity-50 text-white"
             }`}
             onClick={() => {
               if (tipoConsulta === "empresas") return;
@@ -311,42 +312,14 @@ export const Home = () => {
             <FaBuilding className="ml-2" />
           </button>
         </div>
-        {tipoConsulta === "personas" && (
-          <div className="my-2 flex w-full justify-center">
-            <button
-              className={`p-2 border w-1/2 max-w-[150px] xl:max-w-[200px] ${
-                tipoDocumento === "RUC" ? "bg-white" : "bg-black text-white"
-              }`}
-              onClick={() => {
-                if (tipoDocumento === "RUC") return;
-                handleTipoDocumentoChange("RUC");
-                setNumeroDocumento("");
-                setImagenVisible(true);
-              }}
-            >
-              RUC
-            </button>
-            <button
-              className={`p-2 border w-1/2 max-w-[150px] xl:max-w-[200px] ${
-                tipoDocumento === "DNI" ? "bg-white" : "bg-black text-white"
-              }`}
-              onClick={() => {
-                if (tipoDocumento === "DNI") return;
-                handleTipoDocumentoChange("DNI");
-                setNumeroDocumento("");
-                setImagenVisible(true);
-              }}
-            >
-              DNI
-            </button>
-          </div>
-        )}
         <div className="my-8 flex w-full justify-center">
           <input
-            className="p-2 border border-orange-600 w-full max-w-[300px] xl:max-w-[400px]"
+            className="py-2 px-4 border border-orange-600 rounded-full w-full max-w-[300px] xl:max-w-[400px]"
             value={numeroDocumento}
             onChange={handleNumeroDocumentoChange}
-            placeholder={tipoDocumento === "RUC" ? "RUC" : "DNI"}
+            placeholder={
+              tipoDocumento === "RUC" ? "Ingresar RUC" : "Ingresar DNI"
+            }
           />
         </div>
         <button
