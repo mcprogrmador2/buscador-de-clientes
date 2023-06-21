@@ -216,13 +216,13 @@ export const Home = () => {
     if (tipoDocumento === "RUC") {
       url = "https://api.migo.pe/api/v1/ruc";
       options.body = JSON.stringify({
-        token: "0FBSHND2b1Pk5QKeJv0vOvsj9tFMCyfO7lAc56W4wNbcPI8u0nhTFYnhzYJA",
+        token: "lKEismVZMQbkTvEIJKcGUUpZsAtiAlukYqZdkaM2FiXXsidomBK5aQ88ir2q",
         ruc: numeroDocumento,
       });
     } else if (tipoDocumento === "DNI") {
       url = "https://api.migo.pe/api/v1/dni";
       options.body = JSON.stringify({
-        token: "0FBSHND2b1Pk5QKeJv0vOvsj9tFMCyfO7lAc56W4wNbcPI8u0nhTFYnhzYJA",
+        token: "lKEismVZMQbkTvEIJKcGUUpZsAtiAlukYqZdkaM2FiXXsidomBK5aQ88ir2q",
         dni: numeroDocumento,
       });
     }
